@@ -71,6 +71,10 @@
 
   }
       stage('push docker app') {
+        
+            options {
+  skipDefaultCheckout true
+}
       environment {
       DOCKERCREDS = credentials('docker_login') //use the credentials just created in this stage
 }
