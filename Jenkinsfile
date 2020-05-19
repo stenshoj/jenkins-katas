@@ -39,6 +39,7 @@
             sh 'ls'
             deleteDir()
             sh 'ls'
+            stash(name: 'code', excludes: '.git')
           }
         }
 
