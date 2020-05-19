@@ -39,6 +39,29 @@
           }
         }
 
+        stage('build app') {
+            options {
+  skipDefaultCheckout true
+}
+          agent {
+            docker {
+              image 'gradle:jdk11'
+            }
+
+          }
+          steps {
+              
+            unstash 'code'
+            sh 'ci/unit-test-app.sh'
+            junit 'app/build/test-results/test/TEST-*.xml'
+          }
+          post {
+        always {
+
+            deleteDir() /* clean up our workspace */
+        }
+        }
+
       }
     }
 
