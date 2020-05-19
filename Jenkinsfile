@@ -2,10 +2,17 @@ pipeline {
   agent any
   stages {
     stage('clone down') {
-          steps {
-            sh 'echo "hello world"'
-          }
+      agent {
+        node {
+          label 'host'
         }
+
+      }
+      steps {
+        stash(name: 'code', excludes: '.git/')
+      }
+    }
+
     stage('Parallel execution') {
       parallel {
         stage('Say Hello') {
@@ -18,10 +25,12 @@ pipeline {
           agent {
             docker {
               image 'gradle:jdk11'
+              args 'skipDefaultCheckout(true)'
             }
 
           }
           steps {
+            unstash 'code'
             sh 'ci/build-app.sh'
             archiveArtifacts 'app/build/libs/'
             sh 'ls'
