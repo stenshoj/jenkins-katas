@@ -39,7 +39,7 @@
           }
         }
 
-        stage('build app') {
+        stage('test app') {
             options {
   skipDefaultCheckout true
 }
